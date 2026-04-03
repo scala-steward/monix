@@ -18,7 +18,7 @@
 package monix.eval
 import scala.annotation.nowarn
 
-import cats.effect.{ ContextShift, IO }
+import cats.effect.IO
 import monix.catnap.SchedulerEffect
 
 import scala.util.Success
