@@ -38,7 +38,7 @@ object MVarConcurrentSuite extends BaseMVarSuite {
   testAsync("swap is cancelable on take") {
     val task = for {
       mVar     <- empty[Int]
-      finished <- cats/effect/Deferred.uncancelable[IO, Int]
+      finished <- cats / effect / Deferred.uncancelable[IO, Int]
       fiber    <- mVar.swap(20).flatMap(finished.complete).start
       _        <- fiber.cancel
       _        <- mVar.put(10)
@@ -54,7 +54,7 @@ object MVarConcurrentSuite extends BaseMVarSuite {
   testAsync("modify is cancelable on take") {
     val task = for {
       mVar     <- empty[Int]
-      finished <- cats/effect/Deferred.uncancelable[IO, String]
+      finished <- cats / effect / Deferred.uncancelable[IO, String]
       fiber    <- mVar.modify(n => IO.pure((n * 2, n.show))).flatMap(finished.complete).start
       _        <- fiber.cancel
       _        <- mVar.put(10)
@@ -70,7 +70,7 @@ object MVarConcurrentSuite extends BaseMVarSuite {
   testAsync("modify is cancelable on f") {
     val task = for {
       mVar     <- empty[Int]
-      finished <- cats/effect/Deferred.uncancelable[IO, String]
+      finished <- cats / effect / Deferred.uncancelable[IO, String]
       fiber    <- mVar.modify(n => IO.never *> IO.pure((n * 2, n.show))).flatMap(finished.complete).start
       _        <- mVar.put(10)
       _        <- IO.sleep(10.millis)
@@ -113,7 +113,7 @@ object MVarAsyncSuite extends BaseMVarSuite {
     val task = for {
       mVar     <- empty[Int]
       _        <- mVar.put(10)
-      finished <- cats/effect/Deferred.uncancelable[IO, String]
+      finished <- cats / effect / Deferred.uncancelable[IO, String]
       e        <- mVar.modify(_ => IO.raiseError(error)).attempt
       fallback = IO.sleep(100.millis) *> mVar.take
       v <- IO.race(finished.get, fallback)
@@ -411,7 +411,7 @@ abstract class BaseMVarSuite extends SimpleTestSuite {
     val count = if (Platform.isJVM) 10000 else 1000
     val task = for {
       mVar <- empty[Int]
-      ref  <- cats/effect/Ref[IO].of(0)
+      ref  <- cats / effect / Ref[IO].of(0)
       takes = (0 until count)
         .map(_ => IO.shift *> mVar.read.map2(mVar.take)(_ + _).flatMap(x => ref.update(_ + x)))
         .toList
@@ -469,7 +469,7 @@ abstract class BaseMVarSuite extends SimpleTestSuite {
   testAsync("read is cancelable") {
     val task = for {
       mVar     <- empty[Int]
-      finished <- cats/effect/Deferred.uncancelable[IO, Int]
+      finished <- cats / effect / Deferred.uncancelable[IO, Int]
       fiber    <- mVar.read.flatMap(finished.complete).start
       _        <- IO.sleep(10.millis) // Give read callback a chance to register
       _        <- fiber.cancel
