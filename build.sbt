@@ -54,7 +54,7 @@ addCommandAlias(
 // Dependencies - Versions
 
 val cats_Version              = "2.13.0"
-val catsEffect_Version        = "2.5.5"
+val catsEffect_Version        = "3.7.0"
 val jcTools_Version           = "4.0.6"
 val reactiveStreams_Version   = "1.0.4"
 val macrotaskExecutor_Version = "1.1.1"
