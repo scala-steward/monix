@@ -18,7 +18,7 @@
 package monix.catnap
 import scala.annotation.nowarn
 
-import cats.effect.{ ContextShift, IO }
+import cats.effect.IO
 import cats.implicits._
 import minitest.TestSuite
 import monix.execution.internal.Platform

@@ -20,7 +20,7 @@ import scala.annotation.nowarn
 
 import java.util.concurrent.atomic.AtomicLong
 
-import cats.effect.{ ContextShift, IO, Timer }
+import cats.effect.IO
 import cats.implicits._
 import minitest.TestSuite
 import monix.execution.BufferCapacity.{ Bounded, Unbounded }
@@ -32,6 +32,7 @@ import monix.execution.schedulers.TestScheduler
 import scala.collection.immutable.Queue
 import scala.concurrent.TimeoutException
 import scala.concurrent.duration._
+import cats.effect.Temporal
 
 @nowarn
 object ConcurrentQueueFakeSuite extends BaseConcurrentQueueSuite[TestScheduler] {
@@ -74,7 +75,7 @@ object ConcurrentQueueGlobalSuite extends BaseConcurrentQueueSuite[Scheduler] {
 abstract class BaseConcurrentQueueSuite[S <: Scheduler] extends TestSuite[S] {
   implicit def contextShift(implicit s: Scheduler): ContextShift[IO] =
     SchedulerEffect.contextShift[IO](s)(IO.ioEffect)
-  implicit def timer(implicit s: Scheduler): Timer[IO] =
+  implicit def timer(implicit s: Scheduler): Temporal[IO] =
     SchedulerEffect.timerLiftIO[IO](s)(IO.ioEffect)
 
   val repeatForFastTests = {
