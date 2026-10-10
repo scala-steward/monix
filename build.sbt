@@ -8,7 +8,7 @@ import MonixBuildUtils._
 ThisBuild / versionScheme := Some("semver-spec")
 
 val scala213Version = "2.13.18"
-val scala3Version   = "3.3.8"
+val scala3Version   = "3.9.0"
 
 val benchmarkProjects = List(
   "benchmarks"
@@ -279,7 +279,7 @@ lazy val sharedSettings = pgpSettings ++ Def.settings(
   // Settings for deployment through the Sonatype Central Portal
   ThisBuild / publishTo := {
     val centralSnapshots = "https://central.sonatype.com/repository/maven-snapshots/"
-    if (isSnapshot.value) Some("central-snapshots" at centralSnapshots)
+    if (isSnapshot.value) Some("central-snapshots".at(centralSnapshots))
     else localStaging.value
   },
   publishMavenStyle := true,
